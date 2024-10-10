@@ -6,8 +6,6 @@ import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 
 function App() {
-  //usar as rotas da api
-  App.use(router)
 
   // Estado para controlar a visibilidade das informações da empresa
   const [showInfo, setShowInfo] = useState(false);
