@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import Notification from './Notification';
-import router from './routes/userRoutes';
 import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 
