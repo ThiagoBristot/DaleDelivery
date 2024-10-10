@@ -142,6 +142,7 @@ function App() {
         ) : (
           <button className="login-btn" onClick={toggleLogin}>Login/Cadastro</button>
         )}
+        <Notification message={notification.message} type={notification.type} />
       </header>
 
       {/* Modal de Login/Cadastro */}
@@ -152,7 +153,6 @@ function App() {
             <h2>{isLogin ? "Login" : "Cadastro"}</h2>
             {isLogin ? (
               <form onSubmit={handleLogin}>
-                <Notification message={notification.message} type={notification.type} />
                 <input type="tel" placeholder="Número de Telefone (com DDD)" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                 <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button className="submit-btn" type="submit">Entrar</button>
@@ -160,7 +160,6 @@ function App() {
               </form>
             ) : (
               <form onSubmit={handleRegister}>
-                <Notification message={notification.message} type={notification.type} />
                 <input type="tel" placeholder="Número de Telefone (com DDD)" value={phone} onChange={(e) => setPhone(e.target.value)} required />
                 <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <input type="password" placeholder="Confirme a senha" required />
