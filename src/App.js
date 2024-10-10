@@ -91,35 +91,36 @@ function App() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch('https://daledelivery.vercel.app/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, password })
+    const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, password })
     });
     const data = await response.json();
     setNotification({ message: data.message, type: data.success ? 'success' : 'error' });
     if (data.success) {
-      setIsLoggedIn(true);
-      setFullName(data.fullName);
-      toggleLogin();
+        setIsLoggedIn(true);
+        setFullName(data.fullName);
+        toggleLogin();
     }
   };
 
   const handleRegister = async (e) => {
-    e.preventDefault();
-    const response = await fetch('https://daledelivery.vercel.app/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, password, fullName, address })
-    });
-    const data = await response.json();
-    setNotification({ message: data.message, type: data.success ? 'success' : 'error' });
-    if (data.success) {
-      setIsLoggedIn(true);
-      setFullName(data.fullName);
-      toggleLogin();
-    }
+      e.preventDefault();
+      const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, password, fullName, address })
+      });
+      const data = await response.json();
+      setNotification({ message: data.message, type: data.success ? 'success' : 'error' });
+      if (data.success) {
+          setIsLoggedIn(true);
+          setFullName(data.fullName);
+          toggleLogin();
+      }
   };
+
   
 
   return (

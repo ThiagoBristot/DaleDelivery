@@ -1,7 +1,16 @@
 {
-    "rewrites": [
-      { "source": "/api/register", "destination": "/routes/userRoutes.js" },
-      { "source": "/api/login", "destination": "/routes/userRoutes.js" }
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/index.js"
+      }
     ]
   }
   

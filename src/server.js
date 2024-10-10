@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./db'); // O arquivo de conexão com o banco de dados
-const userRoutes = require('./routes/userRoutes'); // Importa as rotas de usuário
+const db = require('./api/db'); // O arquivo de conexão com o banco de dados
+const userRoutes = require('./api/userRoutes'); // Importa as rotas de usuário
 
 const app = express();
 const PORT = 5000;

@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const db = require('../db'); // O arquivo de conexão com o banco de dados
+const db = require('./db'); // O arquivo de conexão com o banco de dados
 
 const router = express.Router();
 
