@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
 import Notification from './Notification';
+import router from './routes/userRoutes';
 import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 
 function App() {
-
-  const userRoutes = require('./routes/userRoutes');
-  App.use(userRoutes);
+  //usar as rotas da api
+  App.use(router)
 
   // Estado para controlar a visibilidade das informações da empresa
   const [showInfo, setShowInfo] = useState(false);
