@@ -5,6 +5,10 @@ import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 
 function App() {
+
+  const userRoutes = require('./routes/userRoutes');
+  App.use(userRoutes);
+
   // Estado para controlar a visibilidade das informações da empresa
   const [showInfo, setShowInfo] = useState(false);
 
