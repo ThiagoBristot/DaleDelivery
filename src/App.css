@@ -181,7 +181,7 @@ ul {
 }
 
 .burger-list ul li, .drink-list ul li, .agua-list ul li, .refri-list ul li, .porcao-list ul li {
-  width: 80%; /* Mantido para responsividade */
+  width: 80%; 
   text-align: center; 
   margin-bottom: 10px; 
 }
@@ -197,6 +197,84 @@ ul {
 
 .drink-img, .agua-img, .refri-img, .porcao-img {
   width: 100%;
+}
+
+.cart-title {
+  margin: 0;
+  font-size: 24px;
+  color: #333; /* Cor do texto do título */
+}
+
+.cart-list {
+  list-style-type: none;
+  padding: 0; 
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cart-li {
+  font-size: large;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  width: 90%;
+  padding: 20px ;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  border-radius: 15px;
+}
+
+.cart-item:hover {
+  background-color: var(--light-gray);
+  cursor: pointer;
+}
+
+.cart-desc {
+  position: relative;
+  width: 90%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.cart-preco {
+  margin-left: auto;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-message {
+  color: #555; /* Cor do texto do parágrafo */
+  font-size: 16px;
+  text-align: center; /* Centraliza o texto */
+}
+
+.cart-gotopaydiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-gotopaybtn {
+  padding: 10px 5px;
+  width: 80%;
+  border-radius: 15px;
+  border: 0;
+  margin-top: 3%;
+  font-size: large;
+}
+
+.cart-gotopaybtn:hover {
+  background-color: var(--light-gray);
+  cursor: pointer;
 }
 
 .cart-btn {
@@ -236,6 +314,7 @@ footer {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow-y: auto;
 }
 
 .login-content {
@@ -318,6 +397,94 @@ input {
   background-color: #f44336; /* Cor de fundo vermelha para erros */
 }
 
+.payment-content {
+  background-color: #f9f9f9;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%; 
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.payment-title {
+  font-size: 28px;
+  color: #2c2c2c;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.payment-item-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.payment-item {
+  font-size: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.payment-label {
+  font-size: 16px;
+  margin-top: 20px;
+  display: block;
+  color: #666;
+}
+
+.payment-observations {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: none;
+}
+
+.payment-details {
+  margin-top: 20px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.payment-freight, .payment-total {
+  font-weight: bold;
+}
+
+.payment-freight {
+  color: #007bff;
+}
+
+.payment-total {
+  color: #333;
+}
+.payment-div-chooseoption {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment-chooseoption {
+  padding: 10px 5px;
+  width: 80%;
+  border-radius: 15px;
+  border: 0;
+  margin-top: 3%;
+  font-size: large;
+}
+
+.payment-chooseoption:hover {
+  background-color: var(--light-gray);
+  cursor: pointer;
+}
 
 @media (max-width: 768px) {
   .App {
