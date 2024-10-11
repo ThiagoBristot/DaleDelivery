@@ -16,69 +16,119 @@ body {
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
   color: var(--text-color);
-  max-width: 90%; /* Largura inicial para ocupar 90% do espaço */
+  max-width: 80%;
   margin: 0 auto;
 }
-
+/* Estilo geral do header */
 .App-header {
-  background-color: var(--secondary-bg);
-  color: var(--text-color);
+  background-color: #f8f9fa; /* Cor de fundo clara */
   padding: 20px;
-  box-shadow: 0 4px 8px var(--shadow-color);
-  margin-bottom: 30px;
-  border-radius: 10px;
-}
-
-.header-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* Permite que os itens da header-container se movam para a próxima linha se não houver espaço */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  border-radius: 8px;
+  position: relative;
 }
 
+/* Estilo do perfil da empresa */
 .profile-empresa {
-  padding: 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
   gap: 15px;
-  background-color: var(--secondary-bg);
-  border-radius: 15px;
   cursor: pointer;
-  box-shadow: 0 2px 10px var(--shadow-color);
-  transition: box-shadow 0.3s ease;
+  transition: transform 0.2s ease-in-out;
 }
 
 .profile-empresa:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
 }
 
-.info-empresa {
-  margin-top: 20px;
-  background-color: var(--light-gray);
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px var(--shadow-color);
+.profile-logo-title {
+  display: flex;
+  gap: 20px;
 }
 
+/* Estilo do logo */
 .logo {
-  width: 70px;
-  height: auto;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  margin-right: 15px; /* Espaço entre a logo e o nome */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Deixa a imagem circular */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* Sombra suave */
+  z-index: 101;
 }
 
-.navbar-produtos {
-  margin: 20px 0;
+/* Estilo do nome da empresa */
+.profile-empresa .profile-nome {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  z-index: 101;
 }
 
-.ulnav-produtos {
+/* Estilo do status */
+.status {
+  font-size: 16px;
+  font-weight: 500;
+  color: #28a745; /* Verde para "Aberto" */
   display: flex;
   align-items: center;
-  justify-content: center; /* Mudado para center para melhor responsividade */
-  flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha se não houver espaço */
-  list-style: none; 
-  padding: 0;
+  gap: 5px;
+  position: relative;
+  bottom: 25px;
+}
+
+/* Estilo do status "Fechado" */
+.status .closed {
+  color: #dc3545; /* Vermelho para "Fechado" */
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Estilo das informações da empresa */
+.info-empresa {
+  position: relative;
+  right: 30%;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  z-index: 100;
+}
+
+/* Estilo do nome do usuário */
+.user-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estilo do botão de login */
+.login-btn {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+  bottom: 30px;
+}
+
+.login-btn:hover {
+  background-color: #0056b3; /* Mudança de cor no hover */
 }
 
 ul {
@@ -128,24 +178,28 @@ ul {
   box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-.login-btn {
-  padding: 10px 20px;
-  background-color: var(--secondary-bg); /* Alterado para se alinhar com o fundo */
-  color: var(--text-color);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 15px;
-  box-shadow: 0 2px 5px var(--shadow-color);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.lista-produtos li ul li {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 }
 
-.login-btn:hover {
-  background-color: var(--light-gray);
+.lista-produtos li ul li:hover {
+  background-color: #eaf6ff;
 }
 
-.user-name {
-  font-size: 1.5em;
+.item-div-nome-desc {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+}
+
+.item-preco {
+  position: relative;
+  bottom: 100px;
+  margin-left: 80%;
+  width: 100px;
 }
 
 .burger-title {
@@ -186,6 +240,14 @@ ul {
   margin-bottom: 10px; 
 }
 
+.burger-details, .porcao-details, .drink-details, .agua-details, .refri-details {
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .drink-title {
   position: relative;
   left: 50%;
@@ -197,6 +259,12 @@ ul {
 
 .drink-img, .agua-img, .refri-img, .porcao-img {
   width: 100%;
+}
+
+.cart-content {
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .cart-title {
@@ -211,6 +279,9 @@ ul {
   margin: 10px 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
   gap: 5px;
 }
 
@@ -223,7 +294,7 @@ ul {
   justify-content: start;
   align-items: start;
   flex-direction: column;
-  width: 90%;
+  width: 80%;
   padding: 20px ;
   box-shadow: 0 2px 5px var(--shadow-color);
   border-radius: 15px;
@@ -232,6 +303,49 @@ ul {
 .cart-item:hover {
   background-color: var(--light-gray);
   cursor: pointer;
+}
+
+.exclude-item-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin-left: auto;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.exclude-item-btn:hover {
+  background-color: #e60000;
+}
+
+.addtocartbtn {
+  background-color: #00aaff; /* Cor azul claro */
+  color: white; /* Texto branco */
+  border: none; /* Remover bordas padrão */
+  padding: 5px 10px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  border-radius: 5px; /* Cantos arredondados */
+  cursor: pointer; /* Mostrar cursor de ponteiro */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.addtocartbtn:hover {
+  background-color: #0077cc; /* Cor mais escura ao passar o mouse */
+  transform: scale(1.05); /* Efeito de leve aumento */
+}
+
+.addtocartbtn:active {
+  background-color: #005f99; /* Cor ainda mais escura ao clicar */
+  transform: scale(0.98); /* Leve diminuição no clique */
+}
+
+.addtocartbtn:focus {
+  outline: none; /* Remover borda de foco padrão */
+  box-shadow: 0 0 5px #00aaff; /* Efeito de foco suave */
 }
 
 .cart-desc {
@@ -244,10 +358,6 @@ ul {
 
 .cart-preco {
   margin-left: auto;
-}
-
-.cart-item:last-child {
-  border-bottom: none;
 }
 
 .cart-message {
@@ -270,11 +380,18 @@ ul {
   border: 0;
   margin-top: 3%;
   font-size: large;
+  background-color: #2878da;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .cart-gotopaybtn:hover {
-  background-color: var(--light-gray);
-  cursor: pointer;
+  background-color: #0056b3;
+  transform: translateY(-3px);
 }
 
 .cart-btn {
@@ -397,93 +514,120 @@ input {
   background-color: #f44336; /* Cor de fundo vermelha para erros */
 }
 
+
+/* Conteúdo do Pagamento */
 .payment-content {
-  background-color: #f9f9f9;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   max-width: 600px;
-  width: 100%; 
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
-  transition: transform 0.3s ease;
 }
 
+/* Título e botão de fechar */
 .payment-title {
-  font-size: 28px;
-  color: #2c2c2c;
-  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
   text-align: center;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
+/* Lista de itens */
 .payment-item-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin-bottom: 20px;
+  overflow-y: auto;
 }
 
 .payment-item {
   font-size: 16px;
   padding: 10px 0;
   border-bottom: 1px solid #e0e0e0;
-}
-
-.payment-label {
-  font-size: 16px;
-  margin-top: 20px;
-  display: block;
-  color: #666;
-}
-
-.payment-observations {
-  width: 100%;
-  height: 40px;
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  resize: none;
-}
-
-.payment-details {
-  margin-top: 20px;
-  font-size: 18px;
+  max-height: 140px;
   display: flex;
-  justify-content: space-between;
-}
-
-.payment-freight, .payment-total {
-  font-weight: bold;
-}
-
-.payment-freight {
-  color: #007bff;
-}
-
-.payment-total {
-  color: #333;
-}
-.payment-div-chooseoption {
-  width: 100%;
-  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.payment-chooseoption {
-  padding: 10px 5px;
-  width: 80%;
-  border-radius: 15px;
-  border: 0;
-  margin-top: 3%;
+.payment-item-name {
+  margin-right: auto;
   font-size: large;
 }
 
-.payment-chooseoption:hover {
-  background-color: var(--light-gray);
+.payment-item-price {
+  margin-left: auto;
+  font-size: large;
+}
+
+.payment-label {
+  margin-top: 10px;
+}
+
+/* Caixa de texto de observações */
+.payment-observations {
+  width: 80%;
+  height: 30px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  resize: none;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Detalhes de pagamento */
+.payment-details {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Opções de pagamento com destaque */
+.payment-options {
+  margin-top: 30px;
+}
+
+.payment-btn-group {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.payment-option-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2878da;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.payment-option-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+}
+
+/* Ícones dentro dos botões */
+.payment-option-btn svg {
+  margin-right: 10px;
 }
 
 @media (max-width: 768px) {
@@ -496,17 +640,86 @@ input {
     font-size: 1.5em; /* Ajusta o tamanho da fonte no mobile */
   }
 
-  .info-empresa {
-    font-size: 14px; /* Ajusta a fonte para mobile */
+  .App-header {
+    flex-direction: column; /* Coloca o conteúdo em coluna */
+    align-items: center; /* Centraliza o conteúdo no mobile */
+    padding: 10px 0; /* Reduz o padding em dispositivos menores */
   }
 
-  .login-content, .cart-content {
-    width: 80%; /* Largura total em dispositivos móveis */
+  /* Ajustes para o perfil da empresa */
+  .profile-empresa {
+    flex-direction: column; /* Torna os itens verticais */
+    align-items: center; /* Centraliza o logo e o nome */
+    gap: 8px; /* Diminui o espaço entre os itens */
+  }
+
+  .logo {
+    width: 40px; /* Reduz o tamanho da logo */
+    height: 40px; /* Mantém a proporção */
+  }
+
+  .profile-empresa p {
+    font-size: 16px; /* Reduz o tamanho do texto */
+  }
+
+  .status {
+    font-size: 14px; /* Ajusta o tamanho do status */
+  }
+
+  /* Ajustes para a informação da empresa */
+  .info-empresa {
+    width: 60%; /* Expande a info para ocupar a tela */
+    text-align: center; /* Centraliza o texto */
+    font-size: 14px; /* Ajusta o tamanho da fonte */
+    position: relative;
+    left: 0;
+    bottom: 50px;
+    margin-top: 10px;
+  }
+
+  /* Ajustes para o botão de login */
+  .login-btn {
+    padding: 10px 20px; /* Ajusta o padding */
+    font-size: 16px; /* Mantém o tamanho da fonte apropriado */
+    width: 60%; /* Expande o botão para quase toda a largura da tela */
+    text-align: center; /* Centraliza o texto no botão */
+  }
+
+  /* Ajustes para o nome de usuário */
+  .user-name {
+    font-size: 16px;
+    text-align: center; /* Centraliza o nome do usuário */
+  }
+
+  .item-div-nome-desc {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    width: 80%;
+    text-align: start;
+  }
+
+  .item-preco {
+    position: relative;
+    bottom: 130px;
+    margin-left: 68%;
+    width: 100px;
+  }
+
+  .addtocartbtn {
+    position: relative;
+    bottom: 40px;
   }
 }
 
 @media (min-width: 1200px) {
   .App {
     max-width: 600px;
+  }
+
+  .addtocartbtn {
+    position: relative;
+    bottom: 30px;
   }
 }

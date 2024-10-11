@@ -3,6 +3,9 @@ import './App.css';
 import Notification from './Notification';
 import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { FaMoneyBillWave, FaCreditCard, FaQrcode } from 'react-icons/fa';
+import { FaDoorOpen, FaDoorClosed } from "react-icons/fa";
+
 
 function App() {
   // Estado para controlar a visibilidade das informações da empresa
@@ -35,6 +38,13 @@ function App() {
   const [activeDescIndex, setActiveDescIndex] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [observations, setObservations] = useState(''); // Para observações do pedido
+
+  // Estado para controlar a expansão do produto na lista
+  const [expandedItemIndex, setExpandedItemIndex] = useState(null);
+  const [expandedPorcaoIndex, setExpandedPorcaoIndex] = useState(null);
+  const [expandedDrinkIndex, setExpandedDrinkIndex] = useState(null);
+  const [expandedAguaIndex, setExpandedAguaIndex] = useState(null);
+  const [expandedRefriIndex, setExpandedRefriIndex] = useState(null);
 
   // Estado para controlar se o usuário está logado
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -92,16 +102,49 @@ function App() {
     setShowCart(prevState => !prevState);
   };
 
+  // Função para expandir/diminuir descricao do item
+  const toggleItemDetails = (index) => {
+    if (expandedItemIndex === index) {
+      setExpandedItemIndex(null); // Fecha o item se ele já estiver aberto
+    } else {
+      setExpandedItemIndex(index); // Expande o item
+    }
+  };
+
   // Função para adicionar item ao carrinho
-  const addItemToCart = (itemName) => {
-    const newItem = { name: itemName }; // Cria um novo objeto com o nome do item
+  const addItemToCart = (option) => {
+    const newItem = { name: option.name, description: option.description, price: option.price }; // Cria um novo objeto com o nome do item
     setCartItems((prevItems) => [...prevItems, newItem]); // Adiciona o novo item ao carrinho
+  };
+
+  // Função para remover item ao carrinho
+  const handleRemoveItem = (indexToRemove) => {
+    const updatedCartItems = cartItems.filter((_, index) => index !== indexToRemove);
+    setCartItems(updatedCartItems); // Atualiza o estado do carrinho
   };
 
   const toggleCartDesc = (index) => {
     // Se o índice já está ativo, feche a descrição, senão, abra para o item clicado
     setActiveDescIndex(prevIndex => prevIndex === index ? null : index);
   };
+
+  // Função para checar se está aberto (entre 18:00 e 22:00)
+  const getStatus = () => {
+    const now = new Date();
+    const currentHour = now.getHours();
+  
+    // Verifica se a hora atual está entre 18:00 e 22:00
+    if (currentHour >= 18 && currentHour < 22) {
+      return (
+        <p className='open'><FaDoorOpen /> Aberto </p>
+      );
+    } else {
+      return (
+        <p className='closed'><FaDoorClosed /> Fechado </p>
+      );
+    }
+  };
+
 
   const togglePaymentModal = () => setShowPaymentModal(!showPaymentModal);
 
@@ -137,19 +180,135 @@ function App() {
     }
   };
   
-
+  // Produtos:
+  const items = [
+    {
+      category: 'porcao',
+      name: 'Porções',
+      imgSrc: 'https://speedy.uenicdn.com/632b60bb-dcd1-480f-a76f-8e3dc994e527/c528_a/image/upload/v1573233963/service_images/shutterstock_273398612.jpg',
+      options: [
+        {
+          name: 'Batata frita média (200g)',
+          description: 'Uma porção de batata frita crocante de 200g.',
+          price: '10,00',
+        },
+        {
+          name: 'Batata frita grande (400g)',
+          description: 'Uma porção de batata frita crocante de 400g.',
+          price: '18,00',
+        },
+        {
+          name: 'Batata rústica média (200g)',
+          description: 'Batata rústica assada e temperada, porção de 200g.',
+          price: '12,00',
+        },
+        {
+          name: 'Batata rústica grande (400g)',
+          description: 'Batata rústica assada e temperada, porção de 400g.',
+          price: '20,00',
+        },
+      ],
+    },
+    {
+      category: 'drink',
+      name: 'Drinks',
+      imgSrc: 'https://www.beerpassclub.com/wp-content/uploads/2023/11/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai-2048x1170.webp',
+      options: [
+        {
+          name: 'Caipirinha',
+          description: 'Caipirinha tradicional feita com limão e cachaça.',
+          price: '15,00',
+        },
+        {
+          name: 'Martini',
+          description: 'Drink clássico feito com gin e vermute.',
+          price: '22,00',
+        },
+        {
+          name: 'Gin Tônica',
+          description: 'Drink refrescante feito com gin e água tônica.',
+          price: '20,00',
+        },
+        {
+          name: 'Lagoa Azul',
+          description: 'Drink doce e colorido com curaçau azul.',
+          price: '18,00',
+        },
+      ],
+    },
+    {
+      category: 'agua',
+      name: 'Águas',
+      imgSrc: 'https://static.vecteezy.com/ti/fotos-gratis/p1/35426341-ai-gerado-vidro-garrafa-em-lago-agua-ai-gerado-frasco-brincar-foto.jpg',
+      options: [
+        {
+          name: 'Água com gás',
+          description: 'Água mineral com gás, garrafa de 500ml.',
+          price: '5,00',
+        },
+        {
+          name: 'Água sem gás',
+          description: 'Água mineral sem gás, garrafa de 500ml.',
+          price: '4,00',
+        },
+      ],
+    },
+    {
+      category: 'refri',
+      name: 'Refrigerantes',
+      imgSrc: 'https://alloydeliveryimages.s3.sa-east-1.amazonaws.com/item_images/623a09047c199.webp',
+      options: [
+        {
+          name: 'Coca-cola',
+          description: 'Refrigerante Coca-cola, lata de 350ml.',
+          price: '6,00',
+        },
+        {
+          name: 'Coca-cola Zero',
+          description: 'Refrigerante Coca-cola Zero, lata de 350ml.',
+          price: '6,00',
+        },
+        {
+          name: 'Guaraná',
+          description: 'Refrigerante Guaraná, lata de 350ml.',
+          price: '5,00',
+        },
+        {
+          name: 'Guaraná Zero',
+          description: 'Refrigerante Guaraná Zero, lata de 350ml.',
+          price: '5,00',
+        },
+        {
+          name: 'Pepsi',
+          description: 'Refrigerante Pepsi, lata de 350ml.',
+          price: '6,00',
+        },
+        {
+          name: 'Pepsi Zero',
+          description: 'Refrigerante Pepsi Zero, lata de 350ml.',
+          price: '6,00',
+        },
+      ],
+    },
+  ];
+  
+  
   return (
     <div className="App">
       <header className="App-header">
         <div className='profile-empresa' onClick={toggleInfo}>
+          <div className='profile-logo-title'>
           <img className='logo' src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/testing-logo-design-template-ce84480d61b3db9a8e1522a99875832f_screen.jpg?ts=1615794516' alt="Logo Empresa" />
-          <p>Empresa</p>
+          <p className='profile-nome'>Empresa</p>
+          </div>
+          <div className="status">
+            {getStatus()}
+          </div>
         </div>
 
         {showInfo && (
           <div className='info-empresa'>
-            <p>Local: Rua Exemplo, 123</p>
-            <p>Status: Aberto</p>
+            <p>Endereço: Rua Exemplo, 123</p>
           </div>
         )}
 
@@ -204,15 +363,26 @@ function App() {
               <ul className="cart-list">
                 {cartItems.map((item, index) => (
                   <div className='cart-item' key={index} onClick={() => toggleCartDesc(index)}>
+                    <button 
+                      className='exclude-item-btn' 
+                      onClick={(e) => {
+                        e.stopPropagation(); // Impede a propagação do clique para a div
+                        handleRemoveItem(index);
+                      }}
+                    >
+                      X
+                    </button>
                     <li className="cart-li">{item.name}</li>
-                    <div className='cart-preco'>preco</div>
+                    <div className='cart-preco'>{item.price}</div> {/* Formata o preço */}
                     {activeDescIndex === index && (
-                      <p className='cart-desc'>descricao</p>
+                      <p className='cart-desc'>{item.description}</p>
                     )}
                   </div>
                 ))}
                 <div className='cart-gotopaydiv'>
-                <button className='cart-gotopaybtn' onClick={togglePaymentModal}><strong>Ir para pagamento</strong></button>
+                  <button className='cart-gotopaybtn' onClick={togglePaymentModal}>
+                    <strong>Ir para pagamento</strong>
+                  </button>
                 </div>
               </ul>
             ) : (
@@ -228,105 +398,83 @@ function App() {
           <div className="payment-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-btn" onClick={togglePaymentModal}>X</button>
             <h2 className="payment-title">Tela de Pagamento</h2>
+
+            {/* Lista de Itens no Carrinho */}
             <ul className="payment-item-list">
               {cartItems.map((item, index) => (
                 <li className="payment-item" key={index}>
-                  {item.name} - {item.price} R$
-                  <label htmlFor="observations" className="payment-label">Observações do pedido:</label>
-                    <textarea
-                      id="observations"
-                      className="payment-observations"
-                      value={observations}
-                      onChange={(e) => setObservations(e.target.value)}
-                      placeholder="Digite as observações desejadas para o pedido"
-                    ></textarea>
+                  <div className="payment-item-name">{item.name}</div>
+                  {/* Exibindo o preço corretamente */}
+                  <div className="payment-item-price">R$ {parseFloat(item.price).toFixed(2)}</div>
+                  <label htmlFor={`observations-${index}`} className="payment-label">
+                    Observações do pedido:
+                  </label>
+                  <textarea
+                    id={`observations-${index}`}
+                    className="payment-observations"
+                    value={observations}
+                    onChange={(e) => setObservations(e.target.value)}
+                    placeholder="Digite as observações desejadas para o pedido"
+                  ></textarea>
                 </li>
               ))}
             </ul>
 
+            {/* Detalhes do Pagamento */}
             <div className="payment-details">
-              <p className="payment-freight">Frete: R$ 15.00</p>
-              <p className="payment-total">Total: R$ 100.00</p>
+              <p className="payment-freight">Frete: R$ 7.00</p>
+
+              {/* Calcula o total dos itens no carrinho + frete */}
+              <p className="payment-total">
+                Total: R$ {(
+                  cartItems.reduce((acc, item) => acc + parseFloat(item.price), 0) + 7
+                ).toFixed(2)}
+              </p>
             </div>
-            <div className='payment-div-chooseoption'>
-              <button className='payment-chooseoption'>Escolher forma de pagamento</button>
+
+            {/* Botões de opções de pagamento com ícones */}
+            <div className="payment-options">
+              <h3>Escolha a forma de pagamento:</h3>
+              <div className="payment-btn-group">
+                <button className="payment-option-btn">
+                  <FaMoneyBillWave size={24} /> Dinheiro
+                </button>
+                <button className="payment-option-btn">
+                  <FaCreditCard size={24} /> Cartão de crédito/débito
+                </button>
+                <button className="payment-option-btn">
+                  <FaQrcode size={24} /> Pix
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
-      
 
       <div className='content-produtos'>
         <ul className='lista-produtos'>
-          <li onClick={toggleBurgers}>
-            <h3 className='burger-title'>Hambúrgueres</h3>
-            <img className='burger-img' alt='hambúrgueres' src='https://blog.milium.com.br/wp-content/uploads/2020/05/Banner-Blog-Post-Milium-Mai20-07-1-1024x366.jpg' />
-            {showBurgers && (
-              <div className='burger-list'>
-                <ul onClick={(e) => e.stopPropagation()}>
-                  <li onClick={() => addItemToCart('Cheeseburger')}>Cheeseburger</li>
-                  <li onClick={() => addItemToCart('Hambúrguer Vegano')}>Hambúrguer Vegano</li>
-                  <li onClick={() => addItemToCart('Hambúrguer de Frango')}>Hambúrguer de Frango</li>
-                </ul>
-              </div>
-            )}
-          </li>
-          <li onClick={toggleporcao}>
-            <h3 className='porcao-title'>Porções</h3>
-              <img className='porcao-img' alt='porções' src='https://speedy.uenicdn.com/632b60bb-dcd1-480f-a76f-8e3dc994e527/c528_a/image/upload/v1573233963/service_images/shutterstock_273398612.jpg' />
-              {showPorcao && (
-                <div className='porcao-list'>
+          {items.map((item, index) => (
+            <li key={index} onClick={() => toggleItemDetails(index)}>
+              <h3 className={`${item.category}-title`}>{item.name}</h3>
+              <img className={`${item.category}-img`} alt={item.category} src={item.imgSrc} />
+              {expandedItemIndex === index && (
+                <div className={`${item.category}-list`}>
                   <ul onClick={(e) => e.stopPropagation()}>
-                    <li onClick={() => addItemToCart('Batata frita média (200g)')}>Batata frita média (200g)</li>
-                    <li onClick={() => addItemToCart('Batata frita grande (400g)')}>Batata frita grande (400g)</li>
-                    <li onClick={() => addItemToCart('Batata rústica média (200g)')}>Batata rústica média (200g)</li>
-                    <li onClick={() => addItemToCart('Batata rústica grande (400g)')}>Batata rústica grande (400g)</li>
+                    {item.options.map((option, i) => (
+                      <li key={i}>
+                        <div className='item-div-nome-desc'>
+                        <h4 className='item-nome'>{option.name}</h4>
+                        <p className='item-desc'>{option.description}</p>
+                        </div>
+                        <p className='item-preco'>R$ {option.price}</p>
+                        <button className='addtocartbtn' onClick={() => addItemToCart(option)}>Adicionar ao Carrinho</button>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
-          </li>
-          <li onClick={toggleDrinks}>
-            <h3 className='drink-title'>Drinks</h3>
-            <img className='drink-img' alt='bebidas' src='https://www.beerpassclub.com/wp-content/uploads/2023/11/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai-2048x1170.webp' />
-            {showDrinks && (
-              <div className='drink-list'>
-                <ul onClick={(e) => e.stopPropagation()}>
-                  <li onClick={() => addItemToCart('Caipirinha')}>Caipirinha</li>
-                  <li onClick={() => addItemToCart('Martini')}>Martini</li>
-                  <li onClick={() => addItemToCart('Gin Tônica')}>Gin Tônica</li>
-                  <li onClick={() => addItemToCart('Lagoa Azul')}>Lagoa Azul</li>
-                </ul>
-              </div>
-            )}
-          </li>
-          <li onClick={toggleAgua}>
-            <h3 className='agua-title'>Águas</h3>
-            <img className='agua-img' alt='aguas' src='https://static.vecteezy.com/ti/fotos-gratis/p1/35426341-ai-gerado-vidro-garrafa-em-lago-agua-ai-gerado-frasco-brincar-foto.jpg'></img>
-            {showAgua && (
-              <div className='agua-list'>
-                <ul onClick={(e) => e.stopPropagation()}>
-                  <li onClick={() => addItemToCart('Água com gás')}>Água com gás</li>
-                  <li onClick={() => addItemToCart('Água sem gás')}>Água sem gás</li>
-                </ul>
-              </div>
-            )}
-          </li>
-          <li onClick={toggleRefri}>
-            <h3 className='refri-title'>Refrigerantes</h3>
-            <img className='refri-img' alt='refrigerantes' src='https://alloydeliveryimages.s3.sa-east-1.amazonaws.com/item_images/623a09047c199.webp'></img>
-            {showRefri && (
-              <div className='refri-list'>
-                <ul onClick={(e) => e.stopPropagation()}>
-                  <li onClick={() => addItemToCart('Coca-cola')}>Coca-cola</li>
-                  <li onClick={() => addItemToCart('Coca-cola Zero')}>Coca-cola Zero</li>
-                  <li onClick={() => addItemToCart('Guaraná')}>Guaraná</li>
-                  <li onClick={() => addItemToCart('Guaraná Zero')}>Guaraná Zero</li>
-                  <li onClick={() => addItemToCart('Pepsi')}>Pepsi</li>
-                  <li onClick={() => addItemToCart('Pepsi Zero')}>Pepsi Zero</li>
-                </ul>
-              </div>
-            )}
-          </li>
+            </li>
+          ))}
         </ul>
       </div>
 
