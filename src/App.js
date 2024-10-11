@@ -37,7 +37,7 @@ function App() {
   const [showCart, setShowCart] = useState(false);
   const [activeDescIndex, setActiveDescIndex] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [observations, setObservations] = useState(''); // Para observações do pedido
+  const [observations, setObservations] = useState({}); // Para observações do pedido
 
   // Estado para controlar a expansão do produto na lista
   const [expandedItemIndex, setExpandedItemIndex] = useState(null);
@@ -65,32 +65,6 @@ function App() {
   const toggleLogin = () => {
     setShowLogin(prevState => !prevState);
   };
-
-  // Função para alternar a visibilidade da lista de hambúrgueres
-  const toggleBurgers = () => {
-    setShowBurgers(prevState => !prevState);
-  };
-
-  // Função para alternar a visibilidade da lista de porções
-  const toggleporcao = () => {
-    setShowPorcao(prevState => ! prevState)
-  }
-
-  // Função para alternar a visibilidade da lista de drinks
-  const toggleDrinks = () => {
-    setShowDrinks(prevState => !prevState);
-  };
-
-  // Função para alternar a visibilidade da lista de aguas
-  const toggleAgua = () => {
-    setShowAgua(prevState => !prevState)
-  }
-
-
-  // Função para alternar a visibilidade da lista de refrigerantes
-  const toggleRefri = () => {
-    setShowRefri(prevState => !prevState)
-  }
 
   // Função para alternar entre login e cadastro
   const toggleForm = () => {
@@ -145,6 +119,12 @@ function App() {
     }
   };
 
+  const handleObservationChange = (index, value) => {
+    setObservations((prevObservations) => ({
+      ...prevObservations,
+      [index]: value, // Atualiza apenas o item correspondente
+    }));
+  };  
 
   const togglePaymentModal = () => setShowPaymentModal(!showPaymentModal);
 
@@ -412,8 +392,8 @@ function App() {
                   <textarea
                     id={`observations-${index}`}
                     className="payment-observations"
-                    value={observations}
-                    onChange={(e) => setObservations(e.target.value)}
+                    value={observations[index] || ""} // Exibe a observação correspondente ou vazio
+                    onChange={(e) => handleObservationChange(index, e.target.value)}
                     placeholder="Digite as observações desejadas para o pedido"
                   ></textarea>
                 </li>
