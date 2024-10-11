@@ -279,7 +279,7 @@ function App() {
         <div className='profile-empresa' onClick={toggleInfo}>
           <div className='profile-logo-title'>
           <img className='logo' src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/testing-logo-design-template-ce84480d61b3db9a8e1522a99875832f_screen.jpg?ts=1615794516' alt="Logo Empresa" />
-          <p className='profile-nome'>Empresa</p>
+          <p className='profile-nome'>DaleDelivery</p>
           </div>
           <div className="status">
             {getStatus()}
