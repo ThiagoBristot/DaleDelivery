@@ -14,21 +14,6 @@ function App() {
   // Estado para controlar a exibição do modal de login
   const [showLogin, setShowLogin] = useState(false);
 
-  // Estado para controlar a exibição da lista de hambúrgueres
-  const [showBurgers, setShowBurgers] = useState(false);
-
-  // Estado para controlar a exibição da lista de porções
-  const [showPorcao, setShowPorcao] = useState(false);
-
-  // Estado para controlar a exibição da lista de drinks
-  const [showDrinks, setShowDrinks] = useState(false);
-
-  // Estado para controlar a exibição da lista de aguas
-  const [showAgua, setShowAgua] = useState(false);
-
-  // Estado para controlar a exibição da lista de refrigerantes
-  const [showRefri, setShowRefri] = useState(false);
-
   // Estado para alternar entre login e cadastro
   const [isLogin, setIsLogin] = useState(true);
 
@@ -41,10 +26,6 @@ function App() {
 
   // Estado para controlar a expansão do produto na lista
   const [expandedItemIndex, setExpandedItemIndex] = useState(null);
-  const [expandedPorcaoIndex, setExpandedPorcaoIndex] = useState(null);
-  const [expandedDrinkIndex, setExpandedDrinkIndex] = useState(null);
-  const [expandedAguaIndex, setExpandedAguaIndex] = useState(null);
-  const [expandedRefriIndex, setExpandedRefriIndex] = useState(null);
 
   // Estado para controlar se o usuário está logado
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,6 +36,11 @@ function App() {
   const [address, setAddress] = useState({ street: '', number: '', neighborhood: '', complement: '' });
 
   const [notification, setNotification] = useState({ message: '', type: 'success' });
+
+  // Estado para controlar metodo de pagamento
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [pixQrCode, setPixQrCode] = useState(null);  // Para armazenar o QR code gerado
+
 
   // Função para alternar a visibilidade das informações da empresa
   const toggleInfo = () => {
@@ -75,6 +61,7 @@ function App() {
   const toggleCart = () => {
     setShowCart(prevState => !prevState);
   };
+  
 
   // Função para expandir/diminuir descricao do item
   const toggleItemDetails = (index) => {
@@ -127,6 +114,29 @@ function App() {
   };  
 
   const togglePaymentModal = () => setShowPaymentModal(!showPaymentModal);
+
+  const generatePixQrCode = async () => {
+    try {
+      const response = await fetch('/create-pix-payment', { method: 'POST' });
+      const data = await response.json();
+      setPixQrCode(data.qrCodeUrl);  // Armazena o QR code gerado
+    } catch (error) {
+      console.error('Erro ao gerar QR Code para Pix:', error);
+    }
+  };  
+
+  const handlePaymentSelection = (method) => {
+    setPaymentMethod(method);
+  
+    if (method === 'Pix') {
+      // Gera um QR Code usando a Stripe quando o método de pagamento for Pix
+      generatePixQrCode();
+    } else {
+      // Apenas loga o método selecionado para Dinheiro ou Cartão
+      console.log(`Método de pagamento selecionado: ${method}`);
+    }
+  };
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -372,7 +382,6 @@ function App() {
         </div>
       )}
 
-      {/* Modal de Pagamento */}
       {showPaymentModal && (
         <div className="modal" onClick={togglePaymentModal}>
           <div className="payment-content" onClick={(e) => e.stopPropagation()}>
@@ -384,7 +393,6 @@ function App() {
               {cartItems.map((item, index) => (
                 <li className="payment-item" key={index}>
                   <div className="payment-item-name">{item.name}</div>
-                  {/* Exibindo o preço corretamente */}
                   <div className="payment-item-price">R$ {parseFloat(item.price).toFixed(2)}</div>
                   <label htmlFor={`observations-${index}`} className="payment-label">
                     Observações do pedido:
@@ -392,7 +400,7 @@ function App() {
                   <textarea
                     id={`observations-${index}`}
                     className="payment-observations"
-                    value={observations[index] || ""} // Exibe a observação correspondente ou vazio
+                    value={observations[index] || ""}
                     onChange={(e) => handleObservationChange(index, e.target.value)}
                     placeholder="Digite as observações desejadas para o pedido"
                   ></textarea>
@@ -403,30 +411,34 @@ function App() {
             {/* Detalhes do Pagamento */}
             <div className="payment-details">
               <p className="payment-freight">Frete: R$ 7.00</p>
-
-              {/* Calcula o total dos itens no carrinho + frete */}
               <p className="payment-total">
-                Total: R$ {(
-                  cartItems.reduce((acc, item) => acc + parseFloat(item.price), 0) + 7
-                ).toFixed(2)}
+                Total: R$ {(cartItems.reduce((acc, item) => acc + parseFloat(item.price), 0) + 7).toFixed(2)}
               </p>
             </div>
 
-            {/* Botões de opções de pagamento com ícones */}
+            {/* Opções de Pagamento */}
             <div className="payment-options">
               <h3>Escolha a forma de pagamento:</h3>
               <div className="payment-btn-group">
-                <button className="payment-option-btn">
+                <button className="payment-option-btn" onClick={() => handlePaymentSelection('Dinheiro')}>
                   <FaMoneyBillWave size={24} /> Dinheiro
                 </button>
-                <button className="payment-option-btn">
+                <button className="payment-option-btn" onClick={() => handlePaymentSelection('Cartão')}>
                   <FaCreditCard size={24} /> Cartão de crédito/débito
                 </button>
-                <button className="payment-option-btn">
+                <button className="payment-option-btn" onClick={() => handlePaymentSelection('Pix')}>
                   <FaQrcode size={24} /> Pix
                 </button>
               </div>
             </div>
+
+            {/* Exibir QR Code para Pix, se o pagamento for Pix */}
+            {paymentMethod === 'Pix' && pixQrCode && (
+              <div className="pix-qr-code">
+                <h3>Escaneie o QR Code para pagar com Pix:</h3>
+                <img src={pixQrCode} alt="QR Code para pagamento Pix" />
+              </div>
+            )}
           </div>
         </div>
       )}
